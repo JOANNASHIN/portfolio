@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>주소자동완성</title>
+        <!-- css -->
+        <link rel="stylesheet" type="text/css" href="http://services.postcodeanywhere.co.uk/css/address-3.91.css" />
+        <link rel="stylesheet" href="/assets/css/main.css">
+        <!-- plugin js -->
+        <script src="https://unpkg.com/lodash@4.17.20"></script>
+        <script type="text/javascript" src="http://services.postcodeanywhere.co.uk/js/address-3.91.js"></script>
+        <script>(function(n,t,i,r){var u,f;n[i]=n[i]||{},n[i].initial={accountCode:"FORBI11111",host:"FORBI11111.pcapredict.com"},n[i].on=n[i].on||function(){(n[i].onq=n[i].onq||[]).push(arguments)},u=t.createElement("script"),u.async=!0,u.src=r,f=t.getElementsByTagName("script")[0],f.parentNode.insertBefore(u,f)})(window,document,"pca","//FORBI11111.pcapredict.com/js/sensor.js")</script>
+
+        <!-- 내부 js -->
+        <script src="/assets/js/main.js"></script>
+    </head>
+
+    <body id="findAddress" class="fb">
+        <section class="fb__findAddress">
+            <h2 class="fb__title">주소 자동완성하기</h2>
+
+            <dl class="fb__findAddress__section">
+                <dt class="fb__findAddress__title">나라선택</dt>
+                <dd class="fb__findAddress__input">
+                    <select name="country" id="country">
+                        <option value="KR">한국</option>
+                        <option value="CN">중국</option>
+                        <option value="US">미국</option>
+                    </select>
+                </dd>
+            </dl>
+
+            <dl class="fb__findAddress__section fb__findAddress__write">
+                <dt class="fb__findAddress__title">주소를 입력하세요.</dt>
+                <dd class="fb__findAddress__input">
+                    <input type="text" name="search" class="searchInput" id="searchInput" placeholder="주소입력하기" autocomplete="off">
+                    <button id="requestFind">검색</button>
+                    <!-- 자동완성 -->
+                    <ul class="fb__findAddress__autocomplete js__autocomplete"></ul>
+                </dd>
+            </dl>
+
+            <dl class="fb__findAddress__section fb__findAddress__result">
+                <dt class="fb__findAddress__title">결과</dt>
+                <dd id="result"></dd>
+                <!-- <dd id="result">
+                    <label>
+                        <span>City</span>
+                        <input type="text" value="">
+                    </label>
+                    <label>
+                        <span>State</span>
+                        <input type="text" value="">
+                    </label>
+                    <label>
+                        <span>Address1</span>
+                        <input type="text" value="Eoam 1-Gil 2 Miwon-Myeon   ">
+                    </label>
+                    <label>
+                        <span>Address2</span>
+                        <input type="text" placeholder="상세주소를 입력해주세요.">
+                    </label>
+                    <label>
+                        <span>Zipcode</span>
+                        <input type="text" value="28201">
+                    </label>
+                </dd> -->
+            </dl>
+            
+        </section>
+    </body>
+</html>

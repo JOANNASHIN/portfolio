@@ -1,0 +1,73 @@
+/* 가이드*/
+const path = require("path");
+const webpack = require("webpack");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+module.exports = (env) => {
+    let entryPath = env.mode === "production"
+        ? "./public/index.js" 
+        : "./src/index.js";
+    
+    return {
+        mode: "none", // production(배포모드, default), development (개발모드), none(모드 설정안함)
+        devtool: "source-map", //배포용(빌드파일과 원본파일 연결)
+        entry: {
+            "js/main": ["./src/index.js"]
+
+        },
+        // entry: entryPath,
+        // "./src/index.js", //한개인 경우
+        // entry: { //여러개인경우
+        //     main: "./src/index.js",
+        //     login: "./src/login.js",
+        // },
+        //
+
+        devServer: {
+            hot: true //브라우저를 새로 고치지 않아도 실시간 반영
+        },
+
+        output: {
+            // filename:"[name].js", //entry의 이름 (지정안하면 main)
+            // filename:"[id].js", //웹팩 내부적으로 사용하는 모듈 id => 0.js이런식
+            // filename:"[name].[hash].js", //고유 해시값을 붙이는 옵션 => main.7adb86d70d6eb3d1ec2c.js 
+            // filename:"[chunkhash].js", //웹팩의 각 모듈 내용을 기준으로 생성된 해시값을 붙이는 옵션 => ad48155349c0ecb4a71d.js 
+            filename:"[name].js",
+            path: path.resolve(__dirname, "dist")
+        },
+
+        //로더(index.js 에서 읽을때 읽도록 도와주는 애)
+        module: {
+            rules: [
+                {
+                    test: /\.(css|scss|sass)$/, //로더를 적용할 파일 유형
+                    use: [
+                        { loader: MiniCssExtractPlugin.loader },  //이걸 추가해야 main.css 파일로 따로 컴파일 됨
+                        // "style-loader",
+                        "css-loader", 
+                        // "sass-loader"
+                    ] 
+
+                    
+                    // 해당 파일에 적용할 로더의 이름 (순서는 오른쪽 => 왼쪽 순으로 적용됨)
+                    // sass-loader는 scss 파일을 css로 
+                    // css-loader는 index.js에서 css 파일을 읽을 수 있도록 도와주고 
+                    // style-loader는 inline css 을 읽도록 도와줌
+                },
+            ]
+        },       
+
+        plugins: [
+            new webpack.ProgressPlugin(), //빌드 진행율을 표시해주는 플러그인,
+            new CleanWebpackPlugin({ //빌드 시 마다 원래꺼 지우고 새로 만들어주는 플러그인
+                cleanStaleWebpackAssets: false
+            }),
+            new htmlWebpackPlugin(), //html을 빌드
+            new MiniCssExtractPlugin({
+                filename: "css/main.css"
+            })
+        ]
+    }
+}
