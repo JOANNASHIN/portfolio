@@ -10,8 +10,7 @@ module.exports = {
     devtool: "source-map", //배포용(빌드파일과 원본파일 연결)
     entry: {
         "js/main": ["./src/js/app.js", "./src/scss/app.scss"]
-        // "js/main": ["./src/js/app.js"]
-    },
+    },  
 
     devServer: {
         hot: true //브라우저를 새로 고치지 않아도 실시간 반영
