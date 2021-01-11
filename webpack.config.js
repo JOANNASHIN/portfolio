@@ -35,6 +35,17 @@ module.exports = {
                 ],
             },
 
+            {
+                test: /\.(png|jpg|gif|jpeg|eot|ttf|woff|woff2)$/,
+                loader: 'file-loader',
+                //include: path.resolve(__dirname, '../'),
+                options: {
+                    name: '[path][name].[ext]',
+                    publicPath: '../../',
+                    outputPath: '/',
+                },
+			},
+
             // {
             //     test: /\.hbs$/,
             //     loader: "handlebars-loader"
@@ -49,6 +60,7 @@ module.exports = {
                     // },
                 },
             },
+            
         ],
     },
 

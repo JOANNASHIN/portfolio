@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .fb__title {
   color: #000;
   font-weight: bold;
@@ -41,9 +42,7 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   box-sizing: border-box;
-  vertical-align: baseline;
-  vertical-align: -webkit-baseline-middle;
-  vertical-align: -moz-middle-with-baseline;
+  vertical-align: middle;
 }
 
 /* make sure to set some focus styles for accessibility */
@@ -499,14 +498,148 @@ textarea {
   border: 1px solid #12ada6;
 }
 
-.fb__weather {
-  background: yellow;
+.fb {
+  overflow: hidden;
 }
-
-.fb__findAddress__write:after {
+.fb__loading {
+  margin-top: 13.3333333333vw;
+  text-align: center;
+}
+.fb__loading__after {
+  display: none;
+}
+.fb__loading * {
+  display: block;
+  background: #fff;
+  margin: 0 auto;
+}
+.fb__loading .fb__weather__loc {
+  width: 50%;
+  height: 5.3333333333vw;
+  margin-bottom: 1.3333333333vw;
+}
+.fb__loading .fb__weather__desc {
+  width: 40%;
+  height: 4vw;
+  margin-bottom: 4vw;
+}
+.fb__loading .fb__weather__icon {
+  width: 26.6666666667vw;
+  height: 24vw;
+  margin-bottom: 2.6666666667vw;
+}
+.fb__loading .fb__weather__temp {
+  width: 16vw;
+  height: 13.3333333333vw;
+  margin-bottom: 2.6666666667vw;
+}
+.fb__weather {
+  width: 100%;
+  height: 100%;
+  background-color: #ddd;
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: 100% auto;
+  color: #fff;
+}
+.fb__weather__unit {
+  font-size: 0;
+}
+.fb__weather__unit:after {
+  display: inline-block;
+  font-size: 2.6666666667vw;
+  margin-left: 0.6666666667vw;
+  content: "˚";
+}
+.fb__weather__cont {
+  width: 100%;
+  height: 100%;
+}
+.fb__weather__summary {
+  float: left;
+  width: 100%;
+  height: 50%;
+  margin: 0 auto;
+  padding: 26.6666666667vw 0 0;
+  text-align: center;
+}
+.fb__weather__loc {
+  display: block;
+  padding: 1.8666666667vw 0;
+  font-weight: bold;
+  font-size: 4.5333333333vw;
+}
+.fb__weather__desc {
+  color: #f8f8f8;
+  font-size: 3.2vw;
+}
+.fb__weather__temp {
+  font-size: 8vw;
+}
+.fb__weather__temp em {
+  margin-right: 0.6666666667vw;
+  font-weight: normal;
+  font-size: 13.3333333333vw;
+  vertical-align: middle;
+}
+.fb__weather__icon {
+  display: block;
+  position: relative;
+  width: 26.6666666667vw;
+  height: 24vw;
+  margin: 0 auto;
+}
+.fb__weather__detail {
+  float: left;
+  width: 100%;
+  height: 50%;
+  margin: 0 auto;
+}
+.fb__weather__past {
+  margin: 2.6666666667vw -1.3333333333vw 0;
+  font-size: 3.2vw;
+}
+.fb__weather__past .past__desc {
+  display: inline-block;
+  margin: 0 1.3333333333vw;
+}
+.fb__weather__hourly {
+  overflow-y: hidden;
+  overflow-x: auto;
+  width: 100%;
+  padding-bottom: 4vw;
+  white-space: nowrap;
+}
+.fb__weather__hourly .hourly__each {
+  display: inline-block;
+  margin: 0 2.6666666667vw;
+  text-align: center;
+}
+.fb__weather__hourly .hourly__time {
+  font-weight: lighter;
+  font-size: 3.2vw;
+}
+.fb__weather__hourly .hourly__icon {
+  overflow: hidden;
+  position: relative;
+  width: 13.3333333333vw;
+  height: 13.3333333333vw;
+}
+.fb__findAddress__write:after, .fb__weather__cont:after {
   display: block;
   clear: both;
   content: "";
+}
+
+.fb__weather__icon img, .fb__weather__hourly .hourly__icon img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: auto;
+  margin: auto;
 }
 
 /*# sourceMappingURL=main.css.map*/

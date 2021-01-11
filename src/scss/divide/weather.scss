@@ -1,5 +1,169 @@
 .fb {
+    overflow: hidden;
+
+    &__loading {
+        margin-top: vw(100px);
+        text-align: center;
+
+        &__after {
+            display: none;
+        }
+
+        * {
+            display: block;
+            background: #fff;
+            margin: 0 auto;
+        }
+
+        .fb__weather__loc {
+            width: 50%;
+            height: vw(40px);
+            margin-bottom: vw(10px);
+        }
+
+        .fb__weather__desc {
+            width: 40%;
+            height: vw(30px);
+            margin-bottom: vw(30px);
+        }
+
+        .fb__weather__icon {
+            width: vw(200px);
+            height: vw(180px);
+            margin-bottom: vw(20px);
+        }
+
+        .fb__weather__temp {
+            width: vw(120px);
+            height: vw(100px);
+            margin-bottom: vw(20px);
+        }
+    }
+
     &__weather {
-        background: yellow;
+        width: 100%;
+        height: 100%;
+        background: {
+            color: #ddd;
+            repeat: no-repeat;
+            position: 0 center;
+            size: 100% auto;
+        }
+        color: #fff;
+        
+        &__unit {
+            font-size: 0;
+
+            &:after {
+                display: inline-block;
+                font-size: vw(20px);
+                margin-left: vw(5px);
+                content: "˚";
+            }
+        }
+
+        &__cont {
+            width: 100%;
+            height: 100%;
+            @extend %clear;
+        }
+
+        &__summary {
+            float: left;
+            width: 100%;
+            height: 50%;
+            margin: vw(0 auto);
+            padding: vw(200px 0 0);
+            text-align: center;
+        }
+
+        &__loc {
+            display: block;
+            padding: vw(14px 0);
+            font-weight: bold;
+            font-size: vw(34px);
+        }
+
+        &__desc {
+            color: #f8f8f8;
+            font-size: vw(24px);
+        }
+
+        &__temp {
+            font-size: vw(60px);
+
+            em {
+                margin-right: vw(5px);
+                font-weight: normal;
+                font-size: vw(100px);
+                vertical-align: middle;
+            }   
+        }
+
+        &__icon {
+            display: block;
+            position: relative;
+            width: vw(200px);
+            height: vw(180px);
+            margin: 0 auto;
+
+            img {
+                @extend %imageResize;
+            }
+        }
+
+        &__detail {
+            float: left;
+            width: 100%;
+            height: 50%;
+            margin: vw(0 auto);
+        }
+
+        //과거
+        &__past {
+            margin: vw(20px -10px 0);
+            font-size: vw(24px);
+            .past {
+                &__desc {
+                    display: inline-block;
+                    margin: vw(0 10px);
+                }
+            }            
+        }
+
+        //시간별
+        &__hourly {
+            overflow-y: hidden;
+            overflow-x: auto;
+            width: 100%;
+            // margin: vw(50px -20px);
+            padding-bottom: vw(30px);
+            white-space: nowrap;
+
+            .hourly {
+                &__each {
+                    display: inline-block;
+                    margin: vw(0 20px);
+                    text-align: center;
+                }
+                
+                &__time {
+                    font-weight: lighter;
+                    font-size: vw(24px);
+                }
+
+                &__icon {
+                    overflow: hidden;
+                    position: relative;
+                    width: vw(100px);
+                    height: vw(100px);
+
+                    img {
+                        @extend %imageResize;
+                    }
+
+                }
+            }
+        }
     }
 }

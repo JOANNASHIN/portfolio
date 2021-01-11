@@ -1,21 +1,105 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
     <head>
         <title>미세먼지 및 날씨 확인</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, viewport-fit=cover, user-scalable=no">
         <link rel="stylesheet" href="/dist/css/main.css">
+        
     </head>
     
     <body id="weather" class="fb">
         <section class="fb__weather">
-            <h2 class="fb__title">미세먼지 및 날씨 확인</h2>
-            
+            <h2 class="fb__title--hidden">날씨 확인</h2>
+
+            <!-- 로딩 -->
+             <div class="fb__loading">
+                <span class="fb__weather__loc"></span>
+                <p class="fb__weather__desc"></p>
+                <span class="fb__weather__icon"></span>
+                <span class="fb__weather__temp"></span>
+            </div>
+
+            <div class="fb__weather__cont fb__loading__after">
+                <div class="fb__weather__summary">
+                    <span id="location" class="fb__weather__loc"></span>
+                    <p id="description" class="fb__weather__desc"></p>
+                    
+                    <figure class="fb__weather__icon">
+                        <img id="js__weather__icon" src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                    </figure>
+                    <span class="fb__weather__temp"><em id="currentTemp"></em>˚</span>
+
+                    <ul class="fb__weather__past">
+                        <li class="past__desc">
+                            <span>어제의 온도:</span>
+                            <em id="pastTemp"></em><span class="fb__weather__unit">섭씨</span>
+                        </li>
+                        <li class="past__desc">
+                            <span>어제의 체감온도:</span>
+                            <em id="pastTempFeelsLike"></em><span class="fb__weather__unit">섭씨</span>
+                        </li>
+                    </ul>
+                </div>
+    
+                <div class="fb__weather__detail">
+                    <ul class="fb__weather__hourly">
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                        <li class="hourly__each">
+                            <span class="hourly__time">지금</span>
+                            <figure class="hourly__icon">
+                                <img src="http://openweathermap.org/img/wn/01d@2x.png" alt="">
+                            </figure>
+                            <span class="hourly__temp"><em>-4</em>˚</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </section>
-        <div id="map" style="width:500px;height:400px;"></div>
-        <div class="hAddr">
-            <span id="centerAddr"></span>
+
+        <div style="display: none;">
+            <div id="map" style="width:500px;height:400px;"></div>
+            <div class="hAddr">
+                <span id="centerAddr"></span>
+            </div>
+            <p>현재날씨:<span class="currentTemp"></span></p>
         </div>
 
-        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ec652bd0d4224b306e150a002233b10&libraries=services,clusterer,drawing""></script>
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=9ec652bd0d4224b306e150a002233b10&libraries=services,clusterer,drawing"></script>
         <script src="/dist/js/main.js"></script>
     </body>
 </html> 
