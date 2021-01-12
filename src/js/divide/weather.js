@@ -166,7 +166,7 @@ const weather = () => {
             console.log(data.weatherBackground[_backgrond])
             $(".fb__weather").css({
                 "background-color": data.weatherBackground[_backgrond],
-                // "background-image": data.weatherBackgroundImage[_backgrond],
+                "background-image": data.weatherBackgroundImage[_backgrond],
             })
             $description.html(_current.weather[0].description);
             $currentTemp.html(_current.temp);
