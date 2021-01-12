@@ -6,8 +6,8 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // const config = {
 module.exports = {
-    mode: "none",
-    devtool: "source-map", //배포용(빌드파일과 원본파일 연결)
+    mode: "production",//"none",
+    devtool: false,//"source-map", //배포용(빌드파일과 원본파일 연결)
     entry: {
         "js/main": ["./src/js/app.js", "./src/scss/app.scss"]
     },  
