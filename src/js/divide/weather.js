@@ -13,10 +13,8 @@ const weather = () => {
         weatherBackgroundImage: {
             "sunny": "skyblue",
             "rainy": "#5b6986",
-            "Clouds": "#355cac",
-            "snow": "#c8dee1"
-            // "Clouds": 'url("/src/images/weather/cloudy3.jpg")',
-            // "snow": 'url("/src/images/weather/snow.jpg")',
+            "Clouds": 'url("/src/images/weather/cloudy3.jpg")',
+            "snow": 'url("/src/images/weather/snow.jpg")',
         },
     }
 
