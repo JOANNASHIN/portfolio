@@ -12,9 +12,9 @@ module.exports = {
         "js/main": ["./src/js/app.js", "./src/scss/app.scss"]
     },  
 
-    devServer: {
-        hot: true //브라우저를 새로 고치지 않아도 실시간 반영
-    },
+    // devServer: {
+    //     hot: true //브라우저를 새로 고치지 않아도 실시간 반영
+    // },
 
     output: {
         filename:"[name].js",
