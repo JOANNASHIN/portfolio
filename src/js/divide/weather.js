@@ -71,6 +71,7 @@ const weather = () => {
                 noLocationFound();
             }
             }, (error) => {
+                alert("Browser doesn't support querying for permissions")
             /* Browser doesn't support querying for permissions */
             console.log('Browser permissions services unavailable', navigator);
             noLocationFound()
