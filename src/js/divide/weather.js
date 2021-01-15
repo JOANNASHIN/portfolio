@@ -221,6 +221,29 @@ const weather = () => {
         */
     }
     const requestCurrentPosition = () => {
+        if (navigator.geolocation) { // GPS를 지원하면
+
+            // 현재 위치 정보를 가져온다.
+            // navigator.geolocation.getCurrentPosition(성공콜백, 에러콜백, 옵션);
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    alert(position);
+                },
+                function(error) {
+                    alert("error")
+                }, 
+                {
+                    enableHighAccuracy: false,
+                    maximumAge: 0,
+                    timeout: Infinity
+                }
+        );
+
+        } else {
+            alert("GPS를 지원하지 않습니다<br>");
+        }
+    }
+    const orirequestCurrentPosition = () => {
         const options = {
             enableHighAccuracy: true,
             timeout: 5000,
