@@ -49885,39 +49885,43 @@ const weather = () => {
     }
 
     const requestCurrentPosition = () => {
+        
         /* Set up getCurrentPosition options with a timeout */
         const navigatorLocationOptions = {
             enableHighAccuracy: true,
             timeout: 5000,
             maximumAge: 0
         };
-    
+        alert("이거" + navigator.permissions.query({name:'geolocation'}))
+
         /* Determine browser permissions status */
         navigator.permissions.query({name:'geolocation'})
             .then((result) => {
                 alert(result.state);
-            /* result.state will be 'granted', 'denied', or 'error' */
-            if (result.state === 'granted') {
-                navigator.geolocation.getCurrentPosition(pos => {
-                console.log('Retrieved user location', pos);
-                /* Got the location! Write your successful code here. */            
+                /* result.state will be 'granted', 'denied', or 'error' */
+                if (result.state === 'granted') {
+                    navigator.geolocation.getCurrentPosition(pos => {
+                    console.log('Retrieved user location', pos);
+                    /* Got the location! Write your successful code here. */            
+        
+                    }, (error) => {
+                        /* System/OS location services disabled */
+                        console.log('System/OS services disabled', navigator);
+                        noLocationFound();
+                    }, navigatorLocationOptions);
     
-            }, (error) => {
-                /* System/OS location services disabled */
-                console.log('System/OS services disabled', navigator);
-                noLocationFound();
-            }, navigatorLocationOptions);
-    
-            } else {
-                /* Browser location services disabled or error */
-                console.log('Browser location services disabled', navigator);
-                noLocationFound();
-            }
-            }, (error) => {
+                } else {
+                    /* Browser location services disabled or error */
+                    console.log('Browser location services disabled', navigator);
+                    noLocationFound();
+                }
+            }, 
+            
+            (error) => {
                 alert("Browser doesn't support querying for permissions")
-            /* Browser doesn't support querying for permissions */
-            console.log('Browser permissions services unavailable', navigator);
-            noLocationFound()
+                /* Browser doesn't support querying for permissions */
+                console.log('Browser permissions services unavailable', navigator);
+                noLocationFound()
             });
     
             function noLocationFound() {
