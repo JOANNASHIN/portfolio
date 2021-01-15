@@ -66,7 +66,7 @@ const weather = () => {
         };
 
 
-        if (navigator.geolocation) {
+        if ( "geolocation" in navigator ) {
             navigator.geolocation.getCurrentPosition(success, error, options);
         } 
         else {
