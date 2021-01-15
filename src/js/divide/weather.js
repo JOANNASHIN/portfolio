@@ -11,11 +11,13 @@ const weather = () => {
         },
 
         weatherBackgroundImage: {
-            "sunny": 'url("/src/images/weather/sunny1.jpg")',
-            "rainy": 'url("/src/images/weather/darksky.jpg")',
+            "Clear": 'url("/src/images/weather/sunny1.jpg")',
+            "Rain": 'url("/src/images/weather/darksky.jpg")',
             "Haze": 'url("/src/images/weather/darksky.jpg")',
+            "Mist": 'url(/src/images/weather/darksky.jpg)',
+            "Rain": 'url("/src/images/weather/darksky.jpg")',
             "Clouds": 'url("/src/images/weather/cloudy3.jpg")',
-            "snow": 'url("/src/images/weather/snow.jpg")',
+            "Snow": 'url("/src/images/weather/snow.jpg")',
         },
     }
 
@@ -62,8 +64,14 @@ const weather = () => {
         function error(err) {
             console.error('ERROR(' + err.code + '): ' + err.message);
         };
-        
-        navigator.geolocation.getCurrentPosition(success, error, options);
+
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error, options);
+        } 
+        else {
+            alert("위치를 허용해주세요.");
+        }
     }
 
     const mapapi = () => {
@@ -159,16 +167,21 @@ const weather = () => {
         const $description = $("#description");
         const $currentTemp = $("#currentTemp");
         const $weatherIcon = $("#js__weather__icon");
+        const $weatherBg = $("#backgroundImg");
 
         const _current = response.current;
         
         if (_current) {
             const _backgrond = _current.weather[0].main; 
-            console.log(data.weatherBackground[_backgrond])
+            console.log("_backgrofnd", data.weatherBackgroundImage[_backgrond])
+
             $(".fb__weather").css({
                 "background-color": data.weatherBackground[_backgrond],
                 "background-image": data.weatherBackgroundImage[_backgrond],
             })
+
+            // $weatherBg.attr("src", data.weatherBackgroundImage[_backgrond])
+
             $description.html(_current.weather[0].description);
             $currentTemp.html(_current.temp);
             $weatherIcon.attr("src", `http://openweathermap.org/img/wn/${_current.weather[0].icon}@2x.png`);

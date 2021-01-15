@@ -6,15 +6,17 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 // const config = {
 module.exports = {
-    mode: "production",//"none",
-    devtool: false,//"source-map", //배포용(빌드파일과 원본파일 연결)
+    // mode: "production",
+    // devtool: false,
+    mode: "none",
+    devtool: "source-map", //배포용(빌드파일과 원본파일 연결)
+    devServer: {
+        hot: true //브라우저를 새로 고치지 않아도 실시간 반영
+    },
     entry: {
         "js/main": ["./src/js/app.js", "./src/scss/app.scss"]
     },  
 
-    // devServer: {
-    //     hot: true //브라우저를 새로 고치지 않아도 실시간 반영
-    // },
 
     output: {
         filename:"[name].js",
