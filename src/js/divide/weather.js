@@ -56,12 +56,15 @@ const weather = () => {
                 lon: coords.longitude,
             }
 
+            alert("위치" + coords.latitude);
+
             mapapi();
             requestWeather();
             requestPastWeather();
         };
         
         function error(err) {
+        alert(err.message)
             console.error('ERROR(' + err.code + '): ' + err.message);
         };
 
