@@ -1,11 +1,12 @@
 const findAddress = () => {
     const $document = $(document);
     const http = new XMLHttpRequest();
-    const inputBox = $("#searchInput");
+    const $inputBox = $("#searchInput");
     const $autocomplete = $(".js__autocomplete");
 
     const data = {
-        Key: "JZ76-FC56-BN78-UF48",
+        // Key: "JZ76-FC56-BN78-UF48",
+        Key: "EG42-YD91-UC49-ZC81",
     }
 
     const requests = {
@@ -105,7 +106,7 @@ const findAddress = () => {
                 }
                 else {
                     drawResult(response.Items[0]);
-                    inputBox.val("");
+                    $inputBox.val("");
                 }
             }
         }

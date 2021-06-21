@@ -1,5 +1,5 @@
 .fb {
-    overflow: hidden;
+    // overflow: hidden;
 
     &__loading {
         margin-top: vw(100px);
@@ -123,7 +123,7 @@
             margin: 0 auto;
 
             img {
-                @extend %imageResize;
+                @include imageResize("width");
             }
         }
 
@@ -174,7 +174,7 @@
                     height: vw(100px);
 
                     img {
-                        @extend %imageResize;
+                        @include imageResize("width");
                     }
 
                 }

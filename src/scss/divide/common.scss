@@ -1,4 +1,8 @@
 .fb {
+    &.scroll--lock {
+        overflow: hidden;
+    }
+    
     &__title {
         color: #000;
         font-weight: bold;
@@ -8,5 +12,13 @@
             font-size: 0;
             line-height: 0;
         }
+    }
+
+    .blind {
+        overflow: hidden !important;
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        clip: rect(1px, 1px, 1px, 1px);
     }
 }

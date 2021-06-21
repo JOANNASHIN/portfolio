@@ -49510,9 +49510,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
 /* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _divide_common__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./divide/common */ "./src/js/divide/common.js");
-/* harmony import */ var _divide_main__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./divide/main */ "./src/js/divide/main.js");
-/* harmony import */ var _divide_findAddress__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./divide/findAddress */ "./src/js/divide/findAddress.js");
-/* harmony import */ var _divide_weather__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./divide/weather */ "./src/js/divide/weather.js");
+/* harmony import */ var _divide_findAddress__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./divide/findAddress */ "./src/js/divide/findAddress.js");
+/* harmony import */ var _divide_weather__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./divide/weather */ "./src/js/divide/weather.js");
+/* harmony import */ var _divide_olenzFreegift__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./divide/olenzFreegift */ "./src/js/divide/olenzFreegift.js");
+/* harmony import */ var _divide_brandIndexer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./divide/brandIndexer */ "./src/js/divide/brandIndexer.js");
 /* provided dependency */ var __webpack_provided_window_dot_$ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 
@@ -49529,24 +49530,209 @@ window.moment = (moment__WEBPACK_IMPORTED_MODULE_2___default());
 
 
 
+
+ /* resize */
+ const htmlDoc = document.documentElement;
+ let enSizing = false;
+ 
+ function setFontSize() {
+     if (window.innerWidth > window.innerHeight) return ;
+     htmlDoc.style.fontSize =  parseInt(htmlDoc.offsetWidth / 360 * 100) + '%';
+ }
+ 
+ window.onresize = function() {
+     if (!enSizing) {
+         window.requestAnimationFrame(function() {
+             setFontSize();
+             enSizing = false;
+         });
+     }
+     enSizing = true;
+ }
+ 
+ window.dispatchEvent(new Event('resize'));
+
 const appMethods = {
     common: _divide_common__WEBPACK_IMPORTED_MODULE_3__.default,
-    main: _divide_main__WEBPACK_IMPORTED_MODULE_4__.default,
-    findAddress: _divide_findAddress__WEBPACK_IMPORTED_MODULE_5__.default,
-    weather: _divide_weather__WEBPACK_IMPORTED_MODULE_6__.default
+    findAddress: _divide_findAddress__WEBPACK_IMPORTED_MODULE_4__.default,
+    weather: _divide_weather__WEBPACK_IMPORTED_MODULE_5__.default,
+    olenzFreegift: _divide_olenzFreegift__WEBPACK_IMPORTED_MODULE_6__.default,
+    brandIndexer: _divide_brandIndexer__WEBPACK_IMPORTED_MODULE_7__.default
+}
+
+//페이지별 공통
+const pageCommonMethod = {
+    // "search": search_common,
 }
 
 const appInit = () => {
     const appName = jquery__WEBPACK_IMPORTED_MODULE_1___default()("body").attr("id");
 
-    if (appName) [_divide_common__WEBPACK_IMPORTED_MODULE_3__.default, appMethods[appName]].forEach(method => {
-        if (method) method();
-    })
+    if (appName) {
+        [_divide_common__WEBPACK_IMPORTED_MODULE_3__.default, appMethods[appName]].forEach(method => {
+            if (method) method();
+        });
+
+        for (let [page, method] of Object.entries(pageCommonMethod)) {
+            if (appName.indexOf(page)!= -1) {
+                if(method) method();
+            }
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
     appInit();
 })
+
+/***/ }),
+
+/***/ "./src/js/divide/brandIndexer.js":
+/*!***************************************!*\
+  !*** ./src/js/divide/brandIndexer.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
+/* harmony export */ });
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+const fnSearchBrand = () => {
+    const $document = $(document);
+    const $window = $(window);
+    const $body = $("body");
+    
+    const $start = $(".js__floating__start");
+    const $floating = $(".js__floating__target");
+    const $menu = $(".js__alphabet__menu");
+    const $floatingScroll  = $(".js__floating__scroll");
+
+    let isMoving = false;
+
+    const isVisibleActiveMenu = ($targetmenu) => {
+        const $eachBox = $(".alphabet__floating__menu");
+        const _index = $targetmenu.index();
+        const _targetOffset = Math.floor($eachBox.outerHeight() * _index);
+        const _isNotVisibleOnTop = _targetOffset < $floatingScroll.scrollTop();
+        
+        console.log("----------------------------------------")
+
+        if (_isNotVisibleOnTop) { //위에 있어서 안보임
+            $floatingScroll.scrollTop(_targetOffset);
+        }
+            
+        else if ( Math.floor($eachBox.outerHeight(true) * _index) > ($floatingScroll.scrollTop() + $floatingScroll.height())) { //밑에있어서 안보일때
+            $floatingScroll.scrollTop(($eachBox.outerHeight(true) * _index));
+        }
+    }
+
+    //스크롤 위치값에 따라 우측 메뉴 active
+    const scrollMove = (_current) => {
+        for (let i = 0; i < $(".js__alphabet__menu").length; i++) {
+            const $targetCont = $(`#alphabet${i}`);
+            const _index = $targetCont.index();
+            const $prevCont = $targetCont.prev();
+            const $targetmenu = $(`[href="#alphabet${i}"]`);
+
+            //첫번째 박스일때
+            if (_index == 0) {
+                if ( _current < $targetCont.offset().top + $targetCont.outerHeight()) {
+                    $menu.removeClass("active");
+                    $targetmenu.addClass("active");
+
+                    isVisibleActiveMenu($targetmenu);
+                }
+            }
+            
+            //박스 높이구간
+            else {
+                if ($("body").prop("scrollHeight") <= $(window).scrollTop() + $("body").height()) { //맨 바닥
+                    $menu.removeClass("active");
+                    $targetmenu.addClass("active");
+
+                    isVisibleActiveMenu($targetmenu);
+                }
+
+                else if (
+                    ($prevCont.length && _current > $prevCont.offset().top + $prevCont.outerHeight())
+                    && ($targetCont.length && _current <= $targetCont.offset().top + $targetCont.outerHeight())
+                ) {
+                    $menu.removeClass("active");
+                    $targetmenu.addClass("active");
+
+                    isVisibleActiveMenu($targetmenu);
+                }
+            }
+
+        }
+    }
+
+    const currentOffsetMenuActive = () => {
+
+        $window.on("scroll", function () {
+            let _current = $window.scrollTop();
+
+            if (isMoving) return ;
+
+            //스크롤 위치값에 따라 우측 메뉴 active
+            scrollMove(_current)
+        })
+    }
+
+    const fixFloatingbar = () => {
+        $window.on("scroll", function () {
+            let _current = $window.scrollTop();
+
+            if (_current >= $start.offset().top) {
+                $floating.addClass("fixed");
+            }
+            else {
+                $floating.removeClass("fixed");
+            }
+        })
+    }
+
+    $document.on("click", ".js__alphabet__menu", function () {
+        const $this = $(this);
+        const _target = $this.attr("href");
+        const $target = $(_target);
+
+        if (!$target.length) return false;
+        
+        isMoving = true;
+
+        //스크롤 이동
+        $("html, body").animate(
+            {
+                "scrollTop": $target.offset().top
+            },
+            500,
+            "swing",
+            function () {
+                isMoving = false;                    
+                console.log("isMoving끝", isMoving)
+            }
+        )
+
+        //메뉴 active
+        $menu.removeClass("active");
+        $this.addClass("active");
+
+        return false;
+    });
+
+    const init = () => {
+        fixFloatingbar();
+        currentOffsetMenuActive();
+    }
+
+    init();
+}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (fnSearchBrand);
 
 /***/ }),
 
@@ -49563,6 +49749,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 const common = () => {
+    const $document = $(document);
+    const $body = $("body");
+
     //공통 비동기 통신
     const requestApi = (object) => {
         if (!object.url) return ;
@@ -49589,8 +49778,132 @@ const common = () => {
         })
     }
 
+    /**
+    * 레이어 js__layer
+    * 열기버튼 js__layer__open
+    * 닫기버튼 js__layer__close
+    */
+    const fn_layer = () => {
+        /**
+        * 레이어 열기
+        *   1. 동작이 일어나는 버튼에 js__layer__open 클래스 추가
+        *   2. 동작이 일어나는 버튼에 data-layer="레이어 아이디값" 속성 추가
+        */
+        $document.on("click", ".js__layer__open", function () {
+            const _layer = $(this).data("layer");
+            const $layer = $("#" + _layer);
+
+            console.log($layer);
+
+            layer_show($layer, true);
+        });
+
+        /**
+        * 레이어 닫기
+        *   1. 닫기버튼에 js__layer__close 클래스 추가
+        *   2. 해당 레이어 최상위에 js__layer 클래스 추가
+        */
+        $document.on("click", ".js__layer__close", function () {
+            const _this = $(this);
+            const $layer = _this.closest(".js__layer");
+            layer_show($layer, false);
+        });
+    };
+
+   /**
+    * 레이어 열고 닫기
+    * @param {element} $layer - 레이어 선택자(필수)
+    * @param {boolean} Boolean - open(true) / close(false)
+    */
+   const layer_show = ($layer, Boolean, callback) => {
+       if (!$layer) return ;
+
+       if (Boolean) {
+           $layer.addClass("show");
+           $body.addClass("scroll--lock");
+       }
+       else{
+           $layer.removeClass("show");
+           $body.removeClass("scroll--lock");
+       }
+
+       if (callback) callback();
+   };
+
+    //input 버튼 관련 함수
+    const inputCommonEvents = () => {
+
+    const getTargetElement = ($this) => {
+        return {
+            $input: $this.closest(".js__input__wrapper").find(".js__input"),
+            $clear: $this.closest(".js__input__wrapper").find(".js__input__clear"),
+            _valueLength: $this.val().length
+        }
+    }
+
+    const keyupEvent = () => {
+        $document.on("keyup", ".js__input", function() {
+            const {$clear, _valueLength} = getTargetElement($(this));
+
+            if (!$clear.length) return ;
+            
+            if (_valueLength) $clear.addClass("show");
+            else $clear.removeClass("show");
+
+            return false;
+        })
+    }
+
+    const focusBlurEvent = function () {
+        $document
+            .on("focus", ".js__input", function() {
+                const {$clear, _valueLength} = getTargetElement($(this));
+                
+                if (!$clear.length) return ;
+                
+                if (_valueLength) $clear.addClass("show");
+                else $clear.removeClass("show");
+
+                return false;
+            })
+
+            .on("blur", ".js__input", function() {
+                const {$clear} = getTargetElement($(this));
+
+                $clear.removeClass("show");
+                return false;
+            });
+    }
+
+    const clearEvent = () => {
+        $document.on("click", ".js__input__clear", function (e) {
+            e.stopPropagation();
+
+            const {$input, $clear} = getTargetElement($(this));
+
+            if (!$input.length || !$clear.length) return ;
+
+            $input.val("");
+            $clear.removeClass("show");
+
+            return false;
+        })
+    }
+
+    const bindEvents = function () {
+        keyupEvent();
+        focusBlurEvent();
+        clearEvent();
+    }
+
+    bindEvents();
+}
+
     const init = () => {
         window.requestApi = requestApi;
+        window.layer_show = layer_show;
+        fn_layer();
+        inputCommonEvents();
     }
 
     init();
@@ -49615,11 +49928,12 @@ __webpack_require__.r(__webpack_exports__);
 const findAddress = () => {
     const $document = $(document);
     const http = new XMLHttpRequest();
-    const inputBox = $("#searchInput");
+    const $inputBox = $("#searchInput");
     const $autocomplete = $(".js__autocomplete");
 
     const data = {
-        Key: "JZ76-FC56-BN78-UF48",
+        // Key: "JZ76-FC56-BN78-UF48",
+        Key: "EG42-YD91-UC49-ZC81",
     }
 
     const requests = {
@@ -49719,7 +50033,7 @@ const findAddress = () => {
                 }
                 else {
                     drawResult(response.Items[0]);
-                    inputBox.val("");
+                    $inputBox.val("");
                 }
             }
         }
@@ -49810,10 +50124,10 @@ const findAddress = () => {
 
 /***/ }),
 
-/***/ "./src/js/divide/main.js":
-/*!*******************************!*\
-  !*** ./src/js/divide/main.js ***!
-  \*******************************/
+/***/ "./src/js/divide/olenzFreegift.js":
+/*!****************************************!*\
+  !*** ./src/js/divide/olenzFreegift.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -49821,11 +50135,212 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-const common = () => {
-    console.log("main.js")
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+/**
+ * validation 체크
+ * 1. 사은품 선택 했는데 도수 선택 안했을 때
+ * 2. 사은품 개수가 2개 초과시
+ * 3. 옵션선택 안했을 시
+ * 
+ * 이벤트
+ * 1. checkbox클릭 시 수량 1
+ * 2. checkbox해제 시 수량 0
+ * 3. 수량 조절 시 0되면 checkbox 해제
+ * 4. 수량 조절 시 1이상 되면 checkbox 클릭
+ * 
+ * 5. 선택할때마다 상단 카운트 올라가기
+ * 6. 선택된 개수가 2개 이상시 alert (마지막으로 클릭한애만 초기화)
+ * 7. 선택된건 기억해서 레이어팝업 다시 열어도 체크되기
+ * 
+ * 
+ * 확인필요
+ * DEFAULT는 한개 선택된 상태인지 아무것도 안선택된건지 > 아무것도 ㄴㄴㄴ
+ * 이것저것 선택 후 Not for this time 누르면 체크 모두 해제 (확인필요) ㅇ
+ * Not for this time 클릭 시 아무 confirm 없이 그냥 닫으면 되는지 ㅇ
+ * 가운데 숫자는 readonly로 처리해도될지 ㅇ
+ * 
+ * 
+ * 
+ * 
+ * **complete 누를때 두개이하로 선택했는지 확인하기
+ * not this time 할때 다 noselect하는지 확인하기
+ * 선택한거 나오게 하기
+ * complete 선택 시 eyepow 값 선택했는지 확인해보기
+*/
+const olenzFreegift = () => {
+    const $document = $(document);
+    const $body = $("body");
+    let isSelected = false;
+
+    const freegift = {
+        changeCount() {
+            const _this = this;
+
+            $document
+                //체크박스 이벤트
+                .on("change", ".js__selectgift__checkbox", function () {
+                    const $this = $(this);
+                    const _isChecked = $this.is(":checked");
+                    const $targetBox = $this.closest(".js__selectgift__each");
+                    const $count = $targetBox.find(".js__selectgift__count");
+                    const $eyepowSelect = $targetBox.find(".js__selectgift__eye");
+                    
+                    if (_isChecked) { //체크
+                        if ($count.val() == 0) {
+                            $targetBox.find(".js__selectgift__count").val(1);
+                        } 
+                    }
+                    else { //체크해제
+                        $eyepowSelect.val("")
+                        $targetBox.find(".js__selectgift__count").val(0);
+                    }
+
+                    _this.checkCountValidate($count);
+                })
+
+                //수량조절 버튼 이벤트
+                .on("click", ".js__selectgift__spinner", function () {
+                    const $this = $(this);
+                    const $targetBox = $this.closest(".js__selectgift__each");
+                    const $count = $targetBox.find(".js__selectgift__count");
+                    const _count = Number($count.val());
+
+                    if ($this.data("action") == "minus") {
+                        $count.val(_count > 0 ? (_count - 1) : 0);
+                    } 
+                    else {
+                        $count.val(_count + 1);
+                    }
+
+                    // 수량에 따라 체크박스 컨트롤
+                    if ($count.val() > 0) $targetBox.find(".js__selectgift__checkbox").prop("checked", true);
+                    else $targetBox.find(".js__selectgift__checkbox").prop("checked", false);
+
+                    _this.checkCountValidate($count);
+                })
+        },
+
+        checkCountValidate($count) {
+            let total = this.calculateCount();
+            const $targetBox = $count.closest(".js__selectgift__each");
+
+            if (total > 2) {
+                total = 2;
+                alert("2개 이상 고르셨습니다.")
+                $count.val(Number($count.val() - 1));
+
+                if ($count.val() == 0) $targetBox.find(".js__selectgift__checkbox").prop("checked", false);
+            }
+
+            $(".js__selectgift__selected").html(total);
+        },
+
+        calculateCount() {
+            let total = 0;
+
+            $(".js__selectgift__count").each(function (idx, obj) {
+                total += Number($(obj).val());
+            })
+
+            return total;
+        },
+
+        selectDone() {
+            const _this = this;
+            $document
+                //선택안함
+                .on("click", ".js__selectgift__noselect", function () {
+                    isSelected = "nothing";
+                    const $allCheckbox = $(".js__selectgift__checkbox");
+                    
+                    $allCheckbox.each(function (idx, obj) {
+                        $(obj).prop("checked", false);
+                    })
+
+                    $allCheckbox.trigger("change")
+
+                    _this.selectLayerClose();
+                })
+                //선택완료
+                .on("click", ".js__selectgift__complete", function () {
+                    // isSelected = "selected";
+                    if (_this.checkValidation()) _this.selectLayerClose();
+                })
+        },
+
+        checkValidation() {
+            let total = 0;
+
+            $(".js__selectgift__checkbox").each(function (idx, obj) {
+                const $this = $(obj);
+
+                if ($this.is(":checked") 
+                    && $this.closest(".js__selectgift__each").find(".js__selectgift__eye").val() == ""
+                ) {
+                    alert("선택한 옵션의 도수를 선택하여주세요.")
+                    return false;
+                }
+
+                total += Number($(obj).val());
+            })
+
+             if (total > 2) {
+                return false;
+            }
+
+            return true;
+        },
+
+        selectLayerClose() {
+            const $layer = $("#js__selectgift");
+            const $selectYet = $(".js__selectgift__yet");
+            const $selectNothing = $(".js__selectgift__nothing");
+    
+            $layer.removeClass("show");
+            $body.removeClass("scroll--lock");
+     
+            if (isSelected == "nothing") {
+                $selectYet.removeClass("show");
+                $selectNothing.addClass("show");
+            }
+            else if (isSelected == "selected") {
+                $selectYet.removeClass("show");
+                $selectNothing.removeClass("show");
+            }
+        },
+
+        run() {
+            this.changeCount();
+            this.selectDone();
+        }
+    };
+
+    const test = () => {
+        const aList = [1, 4, 8, 10];
+        const bList = [5, 5, 5, 5];
+        const cList = [10, 10, 10, 10];
+        const dList = [10, 10, 10, 20];
+        let height = 3;
+        
+        cList.filter(a => {
+            dList.filter(b => {
+                console.log("a, b",a, b, Math.abs(a - b))
+                if (Math.abs(a - b) <= height) {
+                    console.log("넘어갈수있다")
+                }
+            })
+        })
+    }
+
+    const init = () => {
+        freegift.run();
+        test();
+    }
+
+    init();
 }
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (common);
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (olenzFreegift);
 
 /***/ }),
 
@@ -50346,3 +50861,4 @@ const weather = () => {
 /******/ 	__webpack_require__("./src/scss/app.scss");
 /******/ })()
 ;
+//# sourceMappingURL=main.js.map

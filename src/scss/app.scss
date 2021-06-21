@@ -1,12 +1,27 @@
-//공통
-@import "./divide/common.scss";
-@import "./divide/reset.scss";
-@import "./library/vw.scss";
+//TEXT
+$black: #1e1e1e;
+$dark: #646464;
+$medium: #a0a0a0;
+$silver: #c8c8c8;
 
-//페이지별
-@import "./divide/findAddress.scss";
-@import "./divide/weather.scss";
+//LINE, BG, BORDER
+$charcole: #323232; //차콜
+$light: #eaeaea;
+$bright: #f6f6f6;
 
+//SYSTEM
+$red: #ff2600;
+$yellow: #fab200;
+$green: #3ab505;
+
+//POINT
+$pcolor: #0489ff;
+
+//FONT 국문
+$font_noto: "SpoqaHanSansNeo", sans-serif;
+
+//FONT 숫자, 영문
+$font_n: $font_noto;
 
 %clear {
     &:after {
@@ -16,15 +31,25 @@
     }
 }
 
-%imageResize {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    width: 100%;
-    height: auto;
-    margin: auto;
+%scroll {
+    overflow-y: hidden;
+    overflow-x: auto;
+    margin-bottom: rem(-5px);
+    padding-bottom: rem(5px);
+    white-space: nowrap;
+    font-size: 0;
+
+    &::-webkit-scrollbar {
+        display: none;
+
+        &-thumb {
+            display: none;
+        }
+
+        &-button {
+            display: none;
+        }
+    }
 }
 
 @mixin line($lineCount: 1) {
@@ -45,3 +70,153 @@
         -webkit-line-clamp: $lineCount;
     }
 }
+
+@mixin wrapSect($type: "block", $padding: 0, $margin: -20px) {
+
+    @if ($type == "block") {
+        &:after {
+            display: block;
+            width: 100%;
+            height: rem(6px);
+            background: $bright;
+            content: "";
+        }
+    }
+
+    @else if ($type == "position") {
+        position: relative;
+        padding-bottom: rem(6px + $padding);
+
+        &:after {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: rem(6px);
+            background: $bright;
+            content: "";
+        }
+    }
+
+    @else if ($type == "margin") {
+        &:after {
+            display: block;
+            height: rem(6px);
+            margin: rem(0 $margin);
+            background: $bright;
+            content: "";
+        }
+    }
+}
+
+@mixin fontcss($color: $black, $weight: 200, $size: rem(14px), $lineheight: 1.2) {
+    @if ($color) {
+        color: $color;
+    }
+    @if ($weight) {
+        font-weight: $weight;
+    }
+    @if ($size) {
+        font-size: $size;
+    }
+    @if ($lineheight) {
+        line-height: $lineheight;
+    }
+}
+
+@function src($folder: 'guide', $filename: "") {
+    @return  "../images/svg/#{$folder}/#{$filename}.svg";
+}
+
+//구분선
+@mixin division($color: #ccc, $space: rem(32px), $height: rem(18px)) {
+    position: relative;
+    padding-left: $space;
+
+    &:before {
+        position: absolute;
+        top: 50%;
+        left: calc(#{$space} / 2 - #{rem(2px)});
+        width: rem(2px);
+        height: $height;
+        background: $color;
+        transform: translate(0, -50%);
+        content: "";
+    }
+}
+
+@mixin imageResize($type: "width") {
+    overflow: hidden;
+    position: relative;
+
+    img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
+        
+        @if ($type == "width") {
+            width: 100%;
+            height: auto;
+        }
+        @else if ($type == "height") {
+            width: auto;
+            height: 100%;
+        }
+        @else if ($type == "auto") {
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+        }
+    }
+}
+
+
+//공통
+@import "./divide/common.scss";
+
+// @media screen and (min-width: 1200px) {
+    @import "./divide/reset.scss";
+
+    //페이지별
+    @import "./divide/findAddress.scss";
+    @import "./divide/weather.scss";
+    // @import "./divide/olenz.scss";
+// }
+
+
+/* 모바일 */
+
+// REM 적용
+@import "~/node_modules/sass-rem/_rem.scss";
+@import "./divide/mobileReset.scss";
+
+$rem-baseline: 16px;
+
+@function getPercentage($width) {
+    $result: 1;
+        
+    $result: $width / 360 * 100;
+    @return $result;
+}
+
+html {
+    @include rem-baseline;
+    -webkit-text-size-adjust: none;
+
+    //app.js에서 처리
+    $sizes: 320, 360, 400, 500, 600, 640, 720, 750, 1080;
+
+    @each $size in $sizes {
+        @media screen and (min-device-width: #{$size}px) {
+            @include rem-baseline(getPercentage($size) * 1%);
+        }
+    }
+}
+
+$width: rem(360px);
+
+@import "./divide/brandIndexer.scss";
